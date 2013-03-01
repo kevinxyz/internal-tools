@@ -1,0 +1,3 @@
+COMPANY_NAME = 'CompanyName(tm)'  # Google Corp.
+COMPANY_NICKNAME = 'CompanyName'  # El Goog
+COMPANY_EMPLOYEE_NAME = 'Companier'  # Googler, etc...

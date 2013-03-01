@@ -1,0 +1,19 @@
+<!-- {{ cn }} -->
+<div style="font-weight: bold;">
+  <a href="{{ who_url }}{{ ldap_obj.username}}@">
+    {{ ldap_obj.displayName }}
+  </a>
+</div>
+<div></div>
+<div style="font-size: 80%">{{ ldap_obj.title }}</div>
+<!-- <div style="font-size: 65%">{{ ldap_obj.mail }}</div> -->
+<div></div>
+<div style="font-size: 80%; color: #666;">
+  {{ ldap_obj.department }}
+</div>
+<img src="{{ ldap_obj.photo_url }}" width="65" />
+<div style="font-size: 80%; color:  #666;">
+  {% if ldap_obj.state %}
+  {{ ldap_obj.location }}
+  {% endif %}
+</div>

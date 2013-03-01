@@ -1,0 +1,79 @@
+{% extends "dsso/base.html" %}
+{% load url from future %}
+
+{% block title %}{{ company_nickname }} Single Sign-On{% endblock %}
+
+{% block content %}
+
+<form action="{{ dsso_url }}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="service" value="{{ service }}"/>
+
+  <div id="container">
+    <div id="vertical">
+      <div style="text-align: center">
+      </div>
+      <table style="width: 100%" border="0">
+        <tr>
+          <td width=15% rowspan=2></td>
+          <td width=70% class="transparent_box" style="padding: 12px">
+            <table border="0">
+              <tr>
+                <td colspan="2">
+                    <span style="font-size:135%; font-family: verdana; color: grey">
+                      {{ company_nickname }} Single Sign-On
+                    </span>
+                </td>
+                <td rowspan="5" width="50%">
+                  <div style="font-size: 90%; color: black; padding-left: 2em;">
+                    Please enter your Username and Password.
+                    This is your '{{ ldap_domain }}' domain account information.
+                    <br/><br/>
+                    WARNING: Unauthorized access to this network is prohibited
+                    by title 18 USC 2701 (a). Violators are subject to criminal
+                    and civil penalties under title 18 USC 2701 (b). Pursuant
+                    to title 18 USC section 2511 (2)(a)(i), any and all
+                    monitoring of user activity may take place on this network
+                    by the management.
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  &nbsp;
+                  {% if error_msg %}
+                  <span style="color: red;">{{ error_msg }}</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: right">DM Username:</td>
+                <td>
+                  <input type="text" name="username" autofocus
+                         autocomplete size="25"
+                         value="{{ username}}">
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: right">DM Password:</td>
+                <td>
+                  <input type="password" name="password"
+                         size="25"
+                         value="{{ password }}">
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><input type="submit" value="Sign-In"></td>
+              </tr>
+            </table>
+          </td>
+          <td width=19%></td>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  {% endblock %}
+</form>

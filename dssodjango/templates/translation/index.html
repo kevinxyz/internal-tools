@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+    <form action={% url 'translation_index' %} method="post">
+    {% csrf_token %}
+    <div id="container">
+        <div id="vertical">
+
+          <table style="width: 100%" border=0>
+            <tr>
+              <td style="width: 50%; text-align: right">
+                <textarea style="padding:8px" cols="35" rows="8" name="query">{{ query }}</textarea>
+              </td>
+
+              <td style="text-align: center">
+                  <input class="round_button" type="submit" name="en" value="Translate" />
+                  <input class="round_button" type="submit" name="es" value="traducir" />
+                  <input class="round_button" type="submit" name="zh-TW" value="翻譯" />
+                  <input class="round_button" type="submit" name="zh-CN" value="翻译" />
+                  <input class="round_button" type="submit" name="ja" value="翻訳する"/>
+                  <input class="round_button" type="submit" name="fr" value="traduire" />
+                  <input class="round_button" type="submit" name="de" value="übersetzen" />
+              </td>
+
+              <td style="padding:8px; width:30%" class="transparent_box" valign="top">
+                  {% for entry in translated_lines %}
+                     <div id="{{ entry.id }}">{{ entry.display_line|safe }}</div>
+                  {% endfor %}
+              </td>
+              <td style="width: 20%">&nbsp;</td>
+            </tr>
+          </table>
+
+        </div>
+    </div>
+
+    </form>
+
+    <script type="text/javascript">
+        function soundPlay(url)
+        {
+            //if (soundEmbed)
+            //    document.body.removeChild(soundEmbed);
+            soundEmbed = document.createElement("embed");
+            soundEmbed.setAttribute("src", "http://translate.google.com/translate_tts?ie=UTF-8&" + url);
+            soundEmbed.setAttribute("hidden", true);
+            soundEmbed.setAttribute("autostart", true);
+            document.body.appendChild(soundEmbed);
+        }
+        //soundPlay("tl=zh&q=%E4%BD%A0%E5%A5%BD%E5%97%8E")
+
+        {% for entry in translated_lines %}
+            document.getElementById("{{ entry.id }}").addEventListener("click", function(){soundPlay("tl={{ entry.lang }}&q={{ entry.line|safe }}")}, false);
+        {% endfor %}
+    </script>
+
+
+{% endblock %}

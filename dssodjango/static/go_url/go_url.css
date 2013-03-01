@@ -1,0 +1,78 @@
+.UrlBox {
+    background-color: #F5F5F5;
+    border: 1px solid #EBEBEB;
+    position: relative;
+    width: 600px;
+}
+
+.UrlBoxMargin {
+    margin-bottom: 25px;
+}
+
+.UrlText {
+    color: #222222;
+    font-family: arial, sans-serif;
+    font-size: 13px;
+    margin: 5px 25px 5px;
+    width: 550px;
+}
+
+.LongUrlInputBox {
+    margen-left: 25px;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.LongUrlInput {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #FFFFFF;
+    border-color: #C0C0C0 #D9D9D9 #D9D9D9;
+    border-image: none;
+    border-radius: 1px 1px 1px 1px;
+    border-right: 1px solid #D9D9D9;
+    border-style: solid;
+    border-width: 1px;
+    color: #333333;
+    font-family: arial, sans-serif;
+    font-size: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 2px;
+}
+
+.TableOfUrls {
+    color: #777777;
+    font-family: arial,sans-serif;
+    font-size: 11px;
+}
+.TableBorder {
+    border-bottom: 1px solid #EBEBEB;
+}
+.TableTitle {
+    border-bottom: 1px solid #EBEBEB;
+    border-top: 1px solid #EBEBEB;
+    color: #777777;
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    /* height: 45px; */
+    text-align: left;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+.LongUrlBreak {
+    height: 25px;
+    width: 325px;
+    /*
+    text-align: left;
+    word-wrap: break-word;
+    */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    overflow: hidden;
+    padding-right: 10px;
+}

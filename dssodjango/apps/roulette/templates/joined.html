@@ -1,0 +1,13 @@
+<table border="0">
+  <tr>
+    <td>
+      <img src="{{ message["from_photo_url"] }}" height="50"}}/>
+    </td>
+    <td>
+      <div class="message" id="m{{ message["id"] }}">
+      <!-- {% module linkify(message["body"]) %} -->
+      <b>{{ message["from"] }} has joined.</b>
+      </div>
+    </td>
+  </tr>
+</table>

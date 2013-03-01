@@ -1,0 +1,98 @@
+{% extends "sample_app/base.html" %}
+{% load url from future %}
+
+{% block title %}Who is this {{ company_employee_name }}?{% endblock %}
+{% block banner %}Who is this {{ company_employee_name }}?{% endblock %}
+{% block scripthead %}
+<link rel="stylesheet" href="{{ STATIC }}who/who.css?v=1">
+{% endblock %}
+
+
+{% block signin %}
+{% if email %}
+Signed-in as {{ email }}. <a href="{{ signout_url }}">Sign-out.</a>
+{% else %}
+<a href="{{ signin_url }}">
+  Sign-in here to see <b>secret</b> features.
+</a>
+{% endif %}
+{% endblock %}
+
+
+{% block content %}
+{% if email %}
+<a href="{{ percent_url }}">Click here to find out your percent</a>
+<br/><br/>
+{% endif %}
+
+<form action="{{ who_url }}" method="POST">
+  <span style="font-family: monospace;">{{ who_url }}</span>
+  {% csrf_token %}
+  <input name="query" value="{{ query }}">
+  <input type="submit" value="Who is it?"/>
+</form>
+
+{% if possible_objs %}
+<br/>
+<div>
+  Please select one of the following users:
+  <table border="0" class="generic_table">
+    {% for obj in possible_objs %}
+    <tr>
+      <td>
+        <img src="{{ obj.photo_url }}" height="75"/><br/>
+      </td>
+      <td valign="center">
+        <a href="{{ who_url }}{{ obj.username }}@">
+          {{ obj.displayName }}
+        </a>
+        <br/>
+        {% if not obj.is_active %}<span style="color: darkgray;">{% endif %}
+        {{ obj.mail }}
+        {% if not obj.is_active %}</span>{% endif %}
+      </td>
+      <td>
+        {% if not obj.is_active %}<span style="color: darkgray;">{% endif %}
+        {{ obj.title }} ({{ obj.department }})
+        {% if not obj.is_active %}</span>{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+
+{% if json_relationships %}
+<!-- https://developers.google.com/chart/interactive/docs/gallery/orgchart -->
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+<script type='text/javascript'>
+  google.load('visualization', '1', {packages:['orgchart']});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Name');
+    data.addColumn('string', 'Manager');
+    data.addColumn('string', 'ToolTip');
+    data.addRows({{ json_relationships|safe }});
+  //data.setRowProperty(3, 'style', 'border: 1px solid green; background-color: red;');
+  {% for property in data_properties %}
+    data.setRowProperty{{ property|safe }};
+  {% endfor %}
+    var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+    chart.draw(data, {
+      allowCollapse: true,
+      allowHtml: true,
+      size: '{{ chart_size }}',
+    });
+  }
+</script>
+
+<div id='chart_div'></div>
+
+<a href="{{ who_url }}{{ query }}{{ extra_hierarchy_header }}">
+  Show one more layer
+</a>
+{% endif %} <!-- json_relationships -->
+
+
+{% endblock %}
