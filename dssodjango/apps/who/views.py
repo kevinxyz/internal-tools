@@ -125,7 +125,7 @@ def get_object_by_query(query, show_inactive_user=False):
     ldap_objs = None
     for query_func in (
         lambda :LDAPUser.objects.filter(
-                Q(mail__iexact=query) | Q(displayName__iexact=query)),
+                    Q(mail__iexact=query) | Q(displayName__iexact=query)),
         lambda :_alias_query_func(query),
         lambda :LDAPUser.objects.filter(
                 cn__icontains=re.sub(' ', '.', query))
@@ -354,10 +354,10 @@ def index(request, query=None):
             show_inactive_user)
 
         json_relationships = json.dumps(relationships)
-        print "Json relationships:%s" % json_relationships
+        #print "Json relationships:%s" % json_relationships
 
         data_properties = get_data_properties(ldap_obj, ldap_objects)
-        print "Styling:%s" % data_properties
+        #print "Styling:%s" % data_properties
 
         #chart_size = ('large' if len(relationships) <= 6 else
         #              'medium' if len(relationships) <= 12 else 'small')
