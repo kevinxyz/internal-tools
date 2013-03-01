@@ -1,0 +1,160 @@
+{% extends "sample_app/base.html" %}
+{% load url from future %}
+
+{% block title %} Percent? {% endblock %}
+{% block banner %}{{displayName}}'s Percentage{% endblock %}
+{% block scripthead %}
+<link rel="stylesheet" href="{{ STATIC }}who/who.css?v=1">
+{% endblock %}
+
+{% block content %}
+<table border="0" cellpadding="15">
+  <tr>
+    <td>
+      <form action="{{ percentpost_url }}" method="POST">
+        {% csrf_token %}
+        <table border="0">
+          <tr>
+            <td>Department (e.g. engineering, product, business intelligence, ...)
+            </td>
+            <td>
+              <input name="departments" value="{{ departments }}">
+            </td>
+          </tr>
+          <tr>
+            <td>Title (e.g. engineer, intern, product)</td>
+            <td>
+              <input name="titles" value="{{ titles }}">
+            </td>
+          </tr>
+          <tr>
+            <td>Include Contractors</td>
+            <td>
+              <input type="checkbox" name="contractors"
+                     value="1"
+              {% if include_contractors %}checked="yes"{% endif %}/>
+            </td>
+          </tr>
+          <tr>
+            <td>Include Inactive Employees</td>
+            <td>
+              <input type="checkbox" name="inactives"
+                     value="1"
+              {% if include_inactives %}checked="yes"{% endif %}/>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input type="submit" value="{{ displayName }}'s Percent"/>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+    <td>
+      <div style="font-size: 130%">
+        <p>
+          {{ company_oldfarts|length }} old fart accounts were created before you and
+          {{ company_youngens|length }} noob accounts were created after you.
+          Your percent is <b>{{ company_percentile|floatformat:0 }}%</b>
+          (it means that approximately, your account has been around longer than
+          {{ company_percentile|floatformat:0 }}%
+          of the active and non-contractor accounts).
+        </p>
+
+        {% if departments or titles or include_contractors or include_inactives %}
+        <p>
+          Based on the specific query to the left
+          (<span style="font-family: monospace">
+          {% if departments %}departments='{{departments}}'{% endif %}
+          {% if titles %}titles='{{titles}}'{% endif %}
+          {% if include_contractors %}include_contractors='True'{% endif %}
+          {% if include_inactives %}include_inactives='True'{% endif %}
+          </span>
+          ),
+          there were {{ specific_oldfarts|length }} old fart accounts were created before you and
+          {{ specific_youngens|length }} noob accounts were created after you,
+          {% if specific_percentile > 0 %}
+          Your department/title percent is <b>{{ specific_percentile|floatformat:0 }}%</b>.
+          {% endif %}
+        </p>
+        {% endif %}
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+
+<table border="0">
+  <thead>
+  <th>
+    <img src="{{ STATIC }}who/old_mr_burns.jpg" height="75">
+    Old fart accounts created before {{ displayName }}
+  </th>
+  <th>
+    Noob accounts created after {{ displayName }}
+    <img src="{{ STATIC }}who/new_maggie.png" height="75">
+  </th>
+  </thead>
+  <tr>
+    <td valign="top">
+      <!-- old -->
+      <table border="0" class="generic_table">
+        <thead>
+        <th>Name</th>
+        <th>Hire Date</th>
+        <th>Title</th>
+        <th>Department</th>
+        </thead>
+        {% for ldap_obj in specific_oldfarts %}
+        <tr {% if not ldap_obj.is_active %}style="background-color: #FCC;"{% endif %}>
+          <td>
+            <a href="{{ who_url }}{{ ldap_obj.mail }}">
+              {{ ldap_obj.displayName }}
+            </a>
+          </td>
+          <td nowrap>{{ ldap_obj.hire_date }}</td>
+          <td>{{ ldap_obj.title }}</td>
+          <td>{{ ldap_obj.department }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </td>
+    <td valign="top">
+      <!-- young -->
+      <table border="0" class="generic_table">
+        <thead>
+        <th>Name</th>
+        <th>Hire Date</th>
+        <th>Title</th>
+        <th>Department</th>
+        </thead>
+        {% for ldap_obj in specific_youngens %}
+          <tr
+                  {% if not ldap_obj.is_active %}style="background-color: #FCC;"{% endif %}
+                  {% if not ldap_obj.is_contractor %}style="background-color: #FFB;"{% endif %}
+                  >
+            <td>
+              <a href="{{ who_url }}{{ ldap_obj.mail }}">
+                {{ ldap_obj.displayName }}
+              </a>
+            </td>
+            <td nowrap>{{ ldap_obj.hire_date }}</td>
+            <td>{{ ldap_obj.title }}</td>
+            <td>{{ ldap_obj.department }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </td>
+  </tr>
+
+</table>
+<p>
+  LDAP indicates that your hire date is {{ hire_date }}
+  This date is subject to error and any discrepancy
+  should be reported to and be corrected by the IT.
+</p>
+
+{% endblock %}

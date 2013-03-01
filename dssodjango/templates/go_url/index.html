@@ -1,0 +1,81 @@
+{% extends "sample_app/base.html" %}
+{% load url from future %}
+
+{% block title %}http://go  ({{ company_nickname }} URL Shortener){% endblock %}
+{% block banner %}Internal URL Shortener{% endblock %}
+{% block scripthead %}
+<link rel="stylesheet" href="{{ STATIC }}go_url/go_url.css?v=1">
+{% endblock %}
+
+{% block content %}
+
+<br/>
+
+{% if email %}
+<form action="{{ go_url }}" method="post">
+  {% csrf_token %}
+  <div class="UrlBox UrlBoxMargin">
+    <div class="UrlText">
+      <b>Paste your long URL here:</b>
+    </div>
+    <div class="UrlText">
+      <input name="long_url" class="LongUrlInput" tabindex="1"
+             autofocus="True" size="50"/>
+      <input type="submit" value="Shorten URL"/>
+    </div>
+    <div class="UrlText">
+      <span style="font-family: courier">{{ go_url }}</span>
+      <input name="short_url" class="LongUrlInput" tabindex="1"
+             autofocus="True" size="12"
+             value="{{ short_url }}"/>
+      <span style="color: darkgrey">[Optional]</span>
+    </div>
+    <br/>
+
+    <div class="UrlText">
+      All <tt>{{ go_url }}</tt> URLs and click analytics are public and can be
+      accessed by anyone.
+    </div>
+  </div>
+</form>
+{% endif %}
+
+{% if message %}{{ message }}{% endif %}
+
+{% if top_urls %}
+<table border="0" class="TableOfUrls">
+  <thead class="TableTitle">
+    <th></th>
+    <th>LONG URL</th>
+    <th>CREATED</th>
+    <th>SHORT URL</th>
+    <th>CLICKS</th>
+  </thead>
+  {% for url in top_urls %}
+  <colgroup>
+    <col style="width: 50px;">
+    <col style="width: 275px;">
+    <col style="width: 225px;">
+    <col style="width: 175px;">
+    <col style="width: 75px;">
+  </colgroup>
+  <tr>
+    <td></td>
+    <td class="TableBorder">
+      <div class="LongUrlBreak">
+        <a href="{{ go_url }}{{ url.short_url }}">{{ url.long_url}}</a>
+      </div>
+    </td>
+    <td class="TableBorder" style="font-size:10px">
+      <span style="white-space: nowrap">{{ url.created_at}}</span>
+    </td>
+    <td class="TableBorder">
+      <a href="{{ go_url }}{{ url.short_url }}">{{ url.short_url}}</a>
+    </td>
+    <td class="TableBorder">{{ url.total_clicks}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

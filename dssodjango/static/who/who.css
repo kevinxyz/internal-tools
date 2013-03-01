@@ -1,0 +1,21 @@
+.generic_table {
+    border-collapse: collapse;
+    font-family: "Trebuchet MS",Arial,Helvetica,sans-serif;
+    width: 100%;
+}
+.generic_table td {
+    border: 1px solid #98BF21;
+    font-size: 80%;
+    padding: 1px 2px 1px 5px;
+}
+.generic_table th {
+    background-color: #A7C942;
+    color: #FFFFFF;
+    font-size: 80%;
+    padding: 5px;
+    text-align: left;
+}
+.generic_table tr.alt td {
+    background-color: #EAF2D3;
+    color: #000000;
+}

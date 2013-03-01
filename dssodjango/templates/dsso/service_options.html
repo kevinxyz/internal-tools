@@ -1,0 +1,27 @@
+{% extends "sample_app/base.html" %}
+{% load url from future %}
+
+{% block title %}Single Sign-On{% endblock %}
+{% block banner %}Single Sign-On - Beta Services{% endblock %}
+{% block scripthead %}
+<link rel="stylesheet" href="{{ STATIC }}go_url/go_url.css?v=1">
+{% endblock %}
+
+{% block content %}
+
+{% if email %}
+<p>
+  Try out some of the services (all beta):
+<ul>
+  {% for service, url in service_to_url.items %}
+  <a href="{{url}}">
+    <li>
+      {{ service}}
+    </li>
+  </a>
+  {% endfor %}
+</ul>
+</p>
+{% endif %}
+
+{% endblock %}

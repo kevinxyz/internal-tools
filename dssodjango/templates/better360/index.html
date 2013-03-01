@@ -1,0 +1,173 @@
+{% extends "sample_app/base.html" %}
+{% load url from future %}
+
+{% block title %} Better 360 {% endblock %}
+{% block banner %} Better 360 {% endblock %}
+
+{% block content %}
+
+<img src="{{ STATIC }}better360/halogen.png" width="90%">
+<br/>
+<!--
+Welcome to the 360 Degree Feedback form!
+
+You have been requested to complete the below information on behalf of one of
+your co-workers. This information will be used by your co-worker's manager to
+compile a more complete picture of this co-worker's performance. Remember to
+give real examples of performance that you have personally experienced.
+Do not list hear-say or assumptions.
+
+If you do not know this individual or do not feel comfortable giving feedback,
+click the red "x" to close the window and choose the "decline" check box in
+the previous screen.
+
+STRENGTHS: What does this employee do well that you would like him/her to continue to do? Please provide examples to support your opinion.
+
+IMPROVEMENT AREAS: In what areas does this employee need to improve? What actions or behaviors could this employee do better, could be doing more of, or should stop doing? Please provide examples to support your opinion.
+-->
+
+
+<form method="POST" action="{{ better360_url }}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <table border="0">
+    <tr>
+      <td rowspan="8">
+        <img src="{{ STATIC }}better360/officespace_tps.jpg" width="250">
+        <br/>
+        <span style="color: blue;">
+          Get your Halogen out of the way! Increase productivity!
+        </span>
+      </td>
+      <td>Person's name:</td>
+      <td><input type="text" name="personName" size="20" value="{{person_name}}"/></td>
+    </tr>
+    <!--
+    <tr>
+      <td>Gender</td>
+      <td><label><input type="radio" name="gender" value="m" checked="checked"/>D00d</label><label><input
+              type="radio" name="gender" value="f"/>Female</label></td>
+    </tr>
+    -->
+    <tr>
+      <td>Primary project name</td>
+      <td><input type="text" name="projectName" size="20" value="{{project_name}}"/></td>
+    </tr>
+    <tr>
+      <td>Knowledge of Work (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="knowledge"
+                        value="1"/>1</label><label><input type="radio"
+                                                          name="knowledge"
+                                                          value="2"/>2</label><label><input
+              type="radio" name="knowledge" value="3"
+              checked="checked"/>3</label><label><input type="radio"
+                                                        name="knowledge"
+                                                        value="4"/>4</label><label><input
+              type="radio" name="knowledge" value="5"/>5</label></td>
+    </tr>
+    <tr>
+      <td>Quantity of Work (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="quantity" value="1"/>1</label><label><input
+              type="radio" name="quantity" value="2"/>2</label><label><input
+              type="radio" name="quantity" value="3"
+              checked="checked"/>3</label><label><input type="radio"
+                                                        name="quantity"
+                                                        value="4"/>4</label><label><input
+              type="radio" name="quantity" value="5"/>5</label></td>
+    </tr>
+    <tr>
+      <td>Quality of Work (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="quality"
+                        value="1"/>1</label><label><input type="radio"
+                                                          name="quality"
+                                                          value="2"/>2</label><label><input
+              type="radio" name="quality" value="3" checked="checked"/>3</label><label><input
+              type="radio" name="quality" value="4"/>4</label><label><input
+              type="radio" name="quality" value="5"/>5</label></td>
+    </tr>
+    <tr>
+      <td>Adaptability (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="adaptability"
+                        value="1"/>1</label><label><input type="radio"
+                                                          name="adaptability"
+                                                          value="2"/>2</label><label><input
+              type="radio" name="adaptability" value="3"
+              checked="checked"/>3</label><label><input type="radio"
+                                                        name="adaptability"
+                                                        value="4"/>4</label><label><input
+              type="radio" name="adaptability" value="5"/>5</label></td>
+    </tr>
+    <tr>
+      <td>Initiative/Motivation (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="initiative"
+                        value="1"/>1</label><label><input type="radio"
+                                                          name="initiative"
+                                                          value="2"/>2</label><label><input
+              type="radio" name="initiative" value="3"
+              checked="checked"/>3</label><label><input type="radio"
+                                                        name="initiative"
+                                                        value="4"/>4</label><label><input
+              type="radio" name="initiative" value="5"/>5</label></td>
+    </tr>
+    <tr>
+      <td>Dependability (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="dependability"
+                        value="1"/>1</label><label><input type="radio"
+                                                          name="dependability"
+                                                          value="2"/>2</label><label><input
+              type="radio" name="dependability" value="3"
+              checked="checked"/>3</label><label><input type="radio"
+                                                        name="dependability"
+                                                        value="4"/>4</label><label><input
+              type="radio" name="dependability" value="5"/>5</label></td>
+    </tr>
+    <!--
+    <tr>
+      <td>Eco-consciousness (5 good, 1 bad)</td>
+      <td><label><input type="radio" name="environment"
+                        value="1"/>1</label><label><input type="radio"
+                                                          name="environment"
+                                                          value="2"/>2</label><label><input
+              type="radio" name="environment" value="3"
+              checked="checked"/>3</label><label><input type="radio"
+                                                        name="environment"
+                                                        value="4"/>4</label><label><input
+              type="radio" name="environment" value="5"/>5</label></td>
+    </tr>
+    -->
+    <tr>
+      <td colspan="3">
+        <center>
+          <input type="submit" name=""
+                 value="Automatically generate Performance Review based on your scores"/>
+
+        </center>
+      </td>
+    </tr>
+  </table>
+  <div><input type="hidden" name=".cgifields" value="environment"/><input
+          type="hidden" name=".cgifields" value="adaptability"/><input
+          type="hidden" name=".cgifields" value="initiative"/><input
+          type="hidden" name=".cgifields" value="knowledge"/><input
+          type="hidden" name=".cgifields" value="dependability"/><input
+          type="hidden" name=".cgifields" value="quantity"/><input type="hidden"
+                                                                   name=".cgifields"
+                                                                   value="quality"/><input
+          type="hidden" name=".cgifields" value="gender"/>
+  </div>
+</form>
+
+{% if content %}
+<br/><br/>
+<div style="width: 50%; background: beige; padding: 1em; border: #600 2px solid; font-family: Comic,Tahoma">
+  <h2>Cut and paste the content into your Halogen360:</h2>
+  <textarea style="width: 100%; height: 100%" cols="60" rows="35">{{ content }}
+
+
+Sincerely,
+
+{{ displayName }}
+  </textarea>
+</div>
+{% endif %}
+
+{% endblock %}

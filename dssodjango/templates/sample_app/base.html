@@ -1,0 +1,82 @@
+{% load url from future %}
+{% load static %}
+{% get_static_prefix as STATIC %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>
+    {% block title %}Sample App (example of a minimal DSSO code){% endblock %}
+  </title>
+
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  {% block scripthead %}
+  <link rel="stylesheet" href="{{ STATIC }}sample_app/_url.css?v=1">
+  {% endblock %}
+
+  {% block headtail %}{% endblock %}
+</head>
+
+
+{% block bodytag %}
+<body class="body body_style_dm">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+      <img src="{{ STATIC }}DM_Primary_RGB_Darkblue.png" alt="Demand Media"
+           width="80">
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      <span style="color: blue; font-size: 130%; white-space: nowrap">
+        {% block banner %}Sample App{% endblock %}
+      </span>
+    </td>
+    <td>
+      {% for app_name, url in app_urls %}
+        | <a href="{{ url }}">{{ app_name }}</a>
+      {% endfor %}
+    </td>
+    <td align="right">
+      {% block signin %}
+      {% if email %}
+      Signed-in as {{ email }}. <a href="{{ signout_url }}">Sign-out.</a>
+      {% else %}
+      <a href="{{ signin_url }}">Sign-in here for extra featuresr</a>
+      {% endif %}
+      {% endblock %}
+    </td>
+  </tr>
+</table>
+{% endblock %}
+
+
+{% if menu_list %}
+
+{% endif %}
+
+
+{% block content %}
+{% endblock %}
+
+{% block bodyroot %}{% endblock %}
+
+<div class="container" style="text-align: right; position: absolute; bottom: 0; width: 95%">
+  <footer>
+    <p class="pull-left">
+      {% block footer %}
+      {% endblock %}
+    </p>
+  </footer>
+
+</div>
+<!-- /.container -->
+
+</body>
+</html>

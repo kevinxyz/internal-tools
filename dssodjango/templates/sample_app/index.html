@@ -1,0 +1,23 @@
+{% extends "sample_app/base.html" %}
+{% load url from future %}
+
+{% block title %}
+Sample App title
+{% endblock %}
+
+{% block scripthead %}
+<link rel="stylesheet" href="{{ STATIC }}sample_app/_url.css?v=1">
+{% endblock %}
+
+{% block banner %}
+Sample App banner
+{% endblock %}
+
+{% block content %}
+
+<p>
+This app does absolutely nothing. It shows a programmer how to create apps.
+Just look into apps/*/views.py,urls.py, templates/*/*.html, and static/*/*
+</p>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+# Make sure to set LOCAL_ROOT, PROJECT_PATH before including this file
+
+SHELL=/bin/bash
+
+ifndef PROJECT_ENV
+$(warning WARNING: PROJECT_ENV is not defined, defaulting to 'dev')
+PROJECT_ENV=dev
+endif
+
+PYTHON_PATH=$(PROJECT_PATH)
+AUTO_PATH=$(PROJECT_PATH)/auto
+
+# Create these paths automatically (as defined in dcommon/Makefile.common)
+AUTO_PATHS=$(AUTO_PATH)
+AUTO_FILES=$(PROJECT_PATH)/configs/settings
+
+GET_CONFIG_VALUE=PYTHONPATH=$(PYTHON_PATH) \
+  PROJECT_ENV=$(PROJECT_ENV) $(PROJECT_PATH)/bin/get_config_value.py
+
+TMP_PATH=/tmp
+PROJECT_PATH=$(shell readlink -m $(LOCAL_ROOT))
+CONFIG_PATH=$(PROJECT_PATH)/configs/$(PROJECT_ENV)
+
+
+all: | $(AUTO_PATHS) $(AUTO_FILES)
+
+$(AUTO_PATHS):
+	mkdir -p $@
+
+print:
+	@echo "Important variables used for build and runtime:"
+	@echo "-----------------------------------------------"
+	@echo "PROJECT_ENV=$(PROJECT_ENV)"
+	@echo "PROJECT_PATH=$(PROJECT_PATH)"
+	@echo "PYTHONPATH=$(PYTHON_PATH)"
+	@echo "To change the path, edit Makefile.common"
+
+production_guard:
+	@echo "Production guard not implemented."
+
+# shortcut to help people type in the right PYTHONPATH to execute
+PYTHONPATH:
+	@echo "PYTHONPATH=$(PYTHON_PATH)"
+
+$(PROJECT_PATH)/configs/settings:
+	cd $(PROJECT_PATH)/configs; ln -s $(PROJECT_ENV) settings
+
+
+clean: local_clean
+	find . \( -name '*.class' -o -name '*.pyc' \
+  -o -name '*.o' -o -name '*~' -o -name '*,cover' -o -name '.coverage' \
+  -o -name 'coverage.xml' \) -exec rm {} \;
+	rm -f $(AUTO_FILES)
+
+clobber: local_clobber clean
+	rm -f $(AUTO_PATHS) $(AUTO_FILES)
