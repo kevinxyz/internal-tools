@@ -1,7 +1,9 @@
 internal-tools
 ==============
 
-Internal tools for a company/startup built on top of LDAP. Includes http://who, http://go, ...On your development machine, make sure to add the followings to your
+Internal tools for a company/startup built on top of LDAP.
+Includes http://who, http://go, ...
+On your development machine, make sure to add the followings to your
 /etc/hosts (adjust the IP to your actual VM IP):
 172.16.238.88  qa-labs
 172.16.238.88  qa-go
@@ -14,10 +16,9 @@ sudo pip install Django==1.4.1 South==0.7.3 psycopg2==2.4.5 PyYAML==3.10
 sudo pip install uWSGI==1.0.4
 sudo apt-get install python-tornado
 
-To launch in standalone mode for debugging purpose:
-% cd dssodjango
-% make run.test_server
+To launch in standalone mode for debugging purpose (port 7000):
+% make -C dssodjango run.test_server
 
-To launch in nginx mode:
+To launch in nginx mode (harder to debug):
 % make run.dev_servers
 % make stop.dev_servers

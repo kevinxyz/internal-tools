@@ -49,7 +49,7 @@ $(PROJECT_PATH)/configs/settings:
 clean: local_clean
 	find . \( -name '*.class' -o -name '*.pyc' \
   -o -name '*.o' -o -name '*~' -o -name '*,cover' -o -name '.coverage' \
-  -o -name 'coverage.xml' \) -exec rm {} \;
+  -o -name 'coverage.xml' \) -exec rm -f {} \;
 	rm -f $(AUTO_FILES)
 
 clobber: local_clobber clean
